@@ -8,11 +8,11 @@
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="400dp"
-        android:layout_height="680dp"
+        android:layout_width="387dp"
+        android:layout_height="720dp"
         android:background="@drawable/fondo"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteX="2dp"
         tools:layout_editor_absoluteY="1dp">
 
         <LinearLayout
