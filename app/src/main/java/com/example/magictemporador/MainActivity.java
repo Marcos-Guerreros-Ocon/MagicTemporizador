@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     TextView txtTiempo, txtVidas;
     Button iniciar, reiniciar, pausar;
     CountDownTimer contador;
-    long tiempoInicial, vidasIniciales;
+    long tiempoInicial, vidasIniciales, tiempoPausado;
     boolean flagEnableIniciado, flagEnablePausa;
 
     @Override
@@ -30,19 +30,20 @@ public class MainActivity extends AppCompatActivity {
         pausar = (Button) findViewById(R.id.btnPausar);
 
         tiempoInicial = 30;
+        tiempoPausado = 0;
         vidasIniciales = 1;
 
         setFlagEnableIniciado(true);
         setFlagEnablePausa(false);
 
 
-        iniciarContador();
-
         iniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setFlagEnableIniciado(false);
                 pausar.setEnabled(true);
+
+                iniciarContador(tiempoInicial);
                 iniciarTemporizador();
             }
         });
@@ -64,15 +65,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void iniciarContador() {
+    private void iniciarContador(long tiempoAPoner) {
 
-        long tiempo = tiempoInicial;
-        long minutos = tiempo / 60;
-        long segundos = tiempo - minutos * 60;
-        long tiempoTotal = segundos + minutos * 60;
-
-
-        contador = new CountDownTimer(tiempoTotal * 1000, 1000) {
+        contador = new CountDownTimer(tiempoAPoner * 1000, 1000) {
 
             @Override
             public void onTick(long l) {
@@ -103,19 +98,31 @@ public class MainActivity extends AppCompatActivity {
 
     private void pausarTemporizador() {
         contador.cancel();
+        TextView aux = findViewById(R.id.txtValorTiempo);
+        String tiempo = aux.getText().toString();
+        long minuto = Long.parseLong(tiempo.substring(0, tiempo.indexOf(":")));
+        long segundos = Long.parseLong(tiempo.substring(tiempo.indexOf(":") + 1));
+        tiempoPausado = minuto * 60 + segundos;
     }
 
     private void reiniciarTemporizador() {
-        if (isFlagEnableIniciado()){
+        if (isFlagEnableIniciado()) {
             setFlagEnableIniciado(false);
         }
         setFlagEnablePausa(true);
+        if (!isFlagEnablePausa()) {
+        }
 
         contador.cancel();
+        iniciarContador(tiempoInicial);
         contador.start();
     }
 
     private void iniciarTemporizador() {
+        if (tiempoPausado != 0) {
+            iniciarContador(tiempoPausado);
+            tiempoPausado = 0;
+        }
         contador.start();
     }
 
