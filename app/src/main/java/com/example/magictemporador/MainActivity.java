@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         setFlagEnableIniciado(true);
         setFlagEnablePausa(false);
+        reiniciar.setEnabled(false);
 
 
         iniciar.setOnClickListener(new View.OnClickListener() {
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 setFlagEnableIniciado(false);
                 pausar.setEnabled(true);
 
-                iniciarContador(tiempoInicial);
+                instanciarContador(tiempoInicial);
                 iniciarTemporizador();
             }
         });
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void iniciarContador(long tiempoAPoner) {
+    private void instanciarContador(long tiempoAPoner) {
 
         contador = new CountDownTimer(tiempoAPoner * 1000, 1000) {
 
@@ -114,15 +115,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         contador.cancel();
-        iniciarContador(tiempoInicial);
+        instanciarContador(tiempoInicial);
         contador.start();
     }
 
     private void iniciarTemporizador() {
         if (tiempoPausado != 0) {
-            iniciarContador(tiempoPausado);
+            instanciarContador(tiempoPausado);
             tiempoPausado = 0;
         }
+        reiniciar.setEnabled(true);
         contador.start();
     }
 
