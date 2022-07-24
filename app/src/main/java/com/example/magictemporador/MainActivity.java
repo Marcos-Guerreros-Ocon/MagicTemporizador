@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         long tiempoTotal = segundos + minutos * 60;
 
 
-        contador = new CountDownTimerPausable(tiempoTotal * 1000, 1000) {
+        contador = new CountDownTimer(tiempoTotal * 1000, 1000) {
 
             @Override
             public void onTick(long l) {
